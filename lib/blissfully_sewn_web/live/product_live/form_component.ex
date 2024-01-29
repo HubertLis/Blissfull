@@ -1,10 +1,16 @@
 defmodule BlissfullySewnWeb.ProductLive.FormComponent do
+  alias BlissfullySewn.Colors
   use BlissfullySewnWeb, :live_component
-
   alias BlissfullySewn.Products
 
   @impl true
   def render(assigns) do
+    colors = Colors.list_colors()
+    color_options = Enum.map(colors, fn color ->
+      {color.name, color.id}
+    end)
+    assigns = Map.put(assigns, :color_options, color_options)
+
     ~H"""
     <div>
       <.header>
@@ -22,7 +28,7 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:price]} type="number" label="Price" step="any" />
         <.input field={@form[:vat]} type="number" label="Vat" />
-        <.input field={@form[:color]} type="number" label="Color" />
+        <.input field={@form[:color]} type="select" label="Color" options={@color_options} prompt="Choose the color" />
         <.input field={@form[:size]} type="number" label="Size" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Product</.button>
@@ -31,6 +37,7 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
     </div>
     """
   end
+
 
   @impl true
   def update(%{product: product} = assigns, socket) do
@@ -91,4 +98,5 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
 end

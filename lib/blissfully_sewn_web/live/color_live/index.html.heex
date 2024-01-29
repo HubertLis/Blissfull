@@ -1,0 +1,41 @@
+<.header>
+  Listing Colors
+  <:actions>
+    <.link patch={~p"/colors/new"}>
+      <.button>New Color</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="colors"
+  rows={@streams.colors}
+  row_click={fn {_id, color} -> JS.navigate(~p"/colors/#{color}") end}
+>
+  <:col :let={{_id, color}} label="Name"><%= color.name %></:col>
+  <:action :let={{_id, color}}>
+    <div class="sr-only">
+      <.link navigate={~p"/colors/#{color}"}>Show</.link>
+    </div>
+    <.link patch={~p"/colors/#{color}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, color}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: color.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="color-modal" show on_cancel={JS.patch(~p"/colors")}>
+  <.live_component
+    module={BlissfullySewnWeb.ColorLive.FormComponent}
+    id={@color.id || :new}
+    title={@page_title}
+    action={@live_action}
+    color={@color}
+    patch={~p"/colors"}
+  />
+</.modal>

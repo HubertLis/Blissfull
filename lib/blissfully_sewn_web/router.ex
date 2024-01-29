@@ -22,6 +22,12 @@ defmodule BlissfullySewnWeb.Router do
 
     live "/products/:id", ProductLive.Show, :show
     live "/products/:id/show/edit", ProductLive.Show, :edit
+    live "/colors", ColorLive.Index, :index
+    live "/colors/new", ColorLive.Index, :new
+    live "/colors/:id/edit", ColorLive.Index, :edit
+
+    live "/colors/:id", ColorLive.Show, :show
+    live "/colors/:id/show/edit", ColorLive.Show, :edit
     get "/", PageController, :home
   end
 
