@@ -1,6 +1,5 @@
 defmodule BlissfullySewnWeb.ProductLive.FormComponent do
   alias BlissfullySewn.Colors
-  alias BlissfullySewn.Sizes
   use BlissfullySewnWeb, :live_component
   alias BlissfullySewn.Products
 
@@ -36,12 +35,12 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
           prompt="Choose the color"
         />
         <.input
-        field={@form[:size_id]}
-        type="select"
-        label="Size"
-        options={@size_options}
-        prompt="Choose the size"
-      />
+          field={@form[:color_id]}
+          type="select"
+          label="Size"
+          options={@color_options}
+          prompt="Choose the color"
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Product</.button>
         </:actions>
