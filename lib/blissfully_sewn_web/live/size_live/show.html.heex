@@ -1,0 +1,26 @@
+<.header>
+  Size <%= @size.id %>
+  <:subtitle>This is a size record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/size/#{@size}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit size</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @size.name %></:item>
+</.list>
+
+<.back navigate={~p"/size"}>Back to size</.back>
+
+<.modal :if={@live_action == :edit} id="size-modal" show on_cancel={JS.patch(~p"/size/#{@size}")}>
+  <.live_component
+    module={BlissfullySewnWeb.SizeLive.FormComponent}
+    id={@size.id}
+    title={@page_title}
+    action={@live_action}
+    size={@size}
+    patch={~p"/size/#{@size}"}
+  />
+</.modal>

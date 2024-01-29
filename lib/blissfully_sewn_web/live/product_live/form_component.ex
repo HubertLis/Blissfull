@@ -1,5 +1,6 @@
 defmodule BlissfullySewnWeb.ProductLive.FormComponent do
   alias BlissfullySewn.Colors
+  alias BlissfullySewn.Sizes
   use BlissfullySewnWeb, :live_component
   alias BlissfullySewn.Products
 
@@ -7,8 +8,13 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
   def render(assigns) do
     color_options =
       Colors.list_colors()
-      |> Enum.map(&{&1.name, &1.id})
+      |> Enum.map( & {&1.name, &1.id})
+    size_options =
+      Sizes.list_size()
+      |> Enum.map( & {&1.name, &1.id})
     assigns = Map.put(assigns, :color_options, color_options)
+    assigns = Map.put(assigns, :size_options, size_options)
+
 
     ~H"""
     <div>
@@ -27,20 +33,9 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:price]} type="number" label="Price" step="any" />
         <.input field={@form[:vat]} type="number" label="Vat" />
-        <.input
-          field={@form[:color_id]}
-          type="select"
-          label="Color"
-          options={@color_options}
-          prompt="Choose the color"
-        />
-        <.input
-          field={@form[:color_id]}
-          type="select"
-          label="Size"
-          options={@color_options}
-          prompt="Choose the color"
-        />
+        <.input field={@form[:color_id]} type="select" label="Color" options={@color_options} prompt="Choose the color" />
+        <.input field={@form[:size_id]} type="select" label="Size" options={@size_options} prompt="Choose the size" />
+        <.input field={@form[:size]} type="number" label="Size" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Product</.button>
         </:actions>
@@ -48,6 +43,7 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
     </div>
     """
   end
+
 
   @impl true
   def update(%{product: product} = assigns, socket) do
@@ -107,5 +103,7 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
     assign(socket, :form, to_form(changeset))
   end
 
+  #defp notify_parent(_), do: Phoenix.PubSub.broadcast(BlissfullySewn.PubSub, "products", :refresh)
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
 end

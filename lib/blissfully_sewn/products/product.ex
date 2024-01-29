@@ -4,7 +4,7 @@ defmodule BlissfullySewn.Products.Product do
 
   schema "products" do
     field :name, :string
-    field :size, :integer
+    field :size_id, :integer
     belongs_to :color, BlissfullySewn.Colors.Color
     field :price, :decimal
     field :vat, :integer
@@ -15,7 +15,7 @@ defmodule BlissfullySewn.Products.Product do
   @doc false
   def changeset(product, attrs) do
     product
-    |> cast(attrs, [:name, :price, :vat, :color_id, :size])
-    |> validate_required([:name, :price, :vat, :color_id, :size])
+    |> cast(attrs, [:name, :price, :vat, :color_id, :size_id])
+    |> validate_required([:name, :price, :vat, :color_id, :size_id])
   end
 end

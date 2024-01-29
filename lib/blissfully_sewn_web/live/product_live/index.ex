@@ -6,6 +6,10 @@ defmodule BlissfullySewnWeb.ProductLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    if connected?(socket) do
+      Phoenix.PubSub.subscribe(BlissfullySewn.PubSub, "products")
+    end
+
     {:ok, stream(socket, :products, Products.list_products())}
   end
 
@@ -35,6 +39,11 @@ defmodule BlissfullySewnWeb.ProductLive.Index do
   @impl true
   def handle_info({BlissfullySewnWeb.ProductLive.FormComponent, {:saved, product}}, socket) do
     {:noreply, stream_insert(socket, :products, product)}
+#    {:noreply, socket}
+  end
+
+  def handle_info(:refresh, socket) do
+    {:noreply, stream(socket, :products, Products.list_products(), reset: true)}
   end
 
   @impl true

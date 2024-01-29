@@ -61,7 +61,7 @@ CREATE TABLE public.products (
     price numeric,
     vat integer,
     color_id bigint,
-    size integer,
+    size_id bigint,
     inserted_at timestamp(0) without time zone NOT NULL,
     updated_at timestamp(0) without time zone NOT NULL
 );
@@ -97,6 +97,37 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: size; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.size (
+    id bigint NOT NULL,
+    name character varying(255),
+    inserted_at timestamp(0) without time zone NOT NULL,
+    updated_at timestamp(0) without time zone NOT NULL
+);
+
+
+--
+-- Name: size_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.size_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: size_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.size_id_seq OWNED BY public.size.id;
+
+
+--
 -- Name: colors id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -108,6 +139,13 @@ ALTER TABLE ONLY public.colors ALTER COLUMN id SET DEFAULT nextval('public.color
 --
 
 ALTER TABLE ONLY public.products ALTER COLUMN id SET DEFAULT nextval('public.products_id_seq'::regclass);
+
+
+--
+-- Name: size id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.size ALTER COLUMN id SET DEFAULT nextval('public.size_id_seq'::regclass);
 
 
 --
@@ -135,11 +173,27 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: size size_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.size
+    ADD CONSTRAINT size_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: products products_color_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.products
     ADD CONSTRAINT products_color_fkey FOREIGN KEY (color_id) REFERENCES public.colors(id);
+
+
+--
+-- Name: products products_size_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_size_fkey FOREIGN KEY (size_id) REFERENCES public.size(id);
 
 
 --
@@ -149,3 +203,5 @@ ALTER TABLE ONLY public.products
 INSERT INTO public."schema_migrations" (version) VALUES (20240126121026);
 INSERT INTO public."schema_migrations" (version) VALUES (20240126143558);
 INSERT INTO public."schema_migrations" (version) VALUES (20240129105919);
+INSERT INTO public."schema_migrations" (version) VALUES (20240129125848);
+INSERT INTO public."schema_migrations" (version) VALUES (20240129133415);
