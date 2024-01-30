@@ -1,6 +1,7 @@
 defmodule BlissfullySewnWeb.ProductLive.FormComponent do
   alias BlissfullySewn.Colors
   alias BlissfullySewn.Sizes
+  alias BlissfullySewn.Categories
   use BlissfullySewnWeb, :live_component
   alias BlissfullySewn.Products
 
@@ -12,8 +13,12 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
     size_options =
       Sizes.list_size()
       |> Enum.map( & {&1.name, &1.id})
+    category_options =
+       Categories.list_categories()
+       |> Enum.map( & {&1.name, &1.id})
     assigns = Map.put(assigns, :color_options, color_options)
     assigns = Map.put(assigns, :size_options, size_options)
+    assigns = Map.put(assigns, :category_options, category_options)
 
 
     ~H"""
@@ -35,7 +40,7 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
         <.input field={@form[:vat]} type="number" label="Vat" />
         <.input field={@form[:color_id]} type="select" label="Color" options={@color_options} prompt="Choose the color" />
         <.input field={@form[:size_id]} type="select" label="Size" options={@size_options} prompt="Choose the size" />
-        <.input field={@form[:size]} type="number" label="Size" />
+        <.input field={@form[:category_id]} type="select" label="Categories" options={@category_options} prompt="Choose the category" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Product</.button>
         </:actions>
