@@ -1,0 +1,41 @@
+<.header>
+  Listing Vats
+  <:actions>
+    <.link patch={~p"/vats/new"}>
+      <.button>New Tariff</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="vats"
+  rows={@streams.vats}
+  row_click={fn {_id, tariff} -> JS.navigate(~p"/vats/#{tariff}") end}
+>
+  <:col :let={{_id, tariff}} label="Vat"><%= tariff.vat %></:col>
+  <:action :let={{_id, tariff}}>
+    <div class="sr-only">
+      <.link navigate={~p"/vats/#{tariff}"}>Show</.link>
+    </div>
+    <.link patch={~p"/vats/#{tariff}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, tariff}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: tariff.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="tariff-modal" show on_cancel={JS.patch(~p"/vats")}>
+  <.live_component
+    module={BlissfullySewnWeb.TariffLive.FormComponent}
+    id={@tariff.id || :new}
+    title={@page_title}
+    action={@live_action}
+    tariff={@tariff}
+    patch={~p"/vats"}
+  />
+</.modal>

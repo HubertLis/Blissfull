@@ -1,0 +1,26 @@
+<.header>
+  Tariff <%= @tariff.id %>
+  <:subtitle>This is a tariff record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/vats/#{@tariff}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit tariff</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Vat"><%= @tariff.vat %></:item>
+</.list>
+
+<.back navigate={~p"/vats"}>Back to vats</.back>
+
+<.modal :if={@live_action == :edit} id="tariff-modal" show on_cancel={JS.patch(~p"/vats/#{@tariff}")}>
+  <.live_component
+    module={BlissfullySewnWeb.TariffLive.FormComponent}
+    id={@tariff.id}
+    title={@page_title}
+    action={@live_action}
+    tariff={@tariff}
+    patch={~p"/vats/#{@tariff}"}
+  />
+</.modal>

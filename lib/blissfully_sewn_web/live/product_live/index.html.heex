@@ -14,7 +14,7 @@
 >
   <:col :let={{_id, product}} label="Name"><%= if product.name, do: product.name, else: "No Name" %></:col>
   <:col :let={{_id, product}} label="Price"><%= if product.price, do: product.price, else: "No Price" %></:col>
-  <:col :let={{_id, product}} label="Vat"><%= if product.vat, do: product.vat, else: "No Vat" %></:col>
+  <:col :let={{_id, product}} label="Vat %"><%= if product.vat.vat, do: product.vat.vat, else: "No Vat" %></:col>
   <:col :let={{_id, product}} label="Color"><%= if product.color && product.color.name, do: product.color.name, else: "No Color" %></:col>
   <:col :let={{_id, product}} label="Size"><%= if product.size && product.size.name, do: product.size.name, else: "No Size" %></:col>
   <:col :let={{_id, product}} label="Category"><%= if product.category && product.category.name, do: product.category.name, else: "No Category" %></:col>

@@ -7,8 +7,8 @@ defmodule BlissfullySewn.Products.Product do
     belongs_to :size, BlissfullySewn.Sizes.Size
     belongs_to :color, BlissfullySewn.Colors.Color
     belongs_to :category, BlissfullySewn.Categories.Category
+    belongs_to :vat, BlissfullySewn.Vat.Tariff
     field :price, :decimal
-    field :vat, :integer
 
     timestamps(type: :utc_datetime)
   end
@@ -16,7 +16,7 @@ defmodule BlissfullySewn.Products.Product do
     @doc false
   def changeset(product, attrs) do
     product
-    |> cast(attrs, [:name, :price, :vat, :color_id, :size_id, :category_id])
-    |> validate_required([:name, :price, :vat, :category_id])
+    |> cast(attrs, [:name, :price, :vat_id, :color_id, :size_id, :category_id])
+    |> validate_required([:name, :price, :vat_id, :category_id])
   end
 end

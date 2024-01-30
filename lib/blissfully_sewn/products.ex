@@ -19,7 +19,7 @@ defmodule BlissfullySewn.Products do
   """
   def list_products do
     Repo.all(Product)
-    |> Repo.preload([:color, :size,:category])
+    |> Repo.preload([:color, :size,:category,:vat])
   end
 
   @doc """

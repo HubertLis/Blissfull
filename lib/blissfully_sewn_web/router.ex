@@ -43,6 +43,12 @@ defmodule BlissfullySewnWeb.Router do
 
     live "/categories/:id", CategoryLive.Show, :show
     live "/categories/:id/show/edit", CategoryLive.Show, :edit
+    live "/vats", TariffLive.Index, :index
+    live "/vats/new", TariffLive.Index, :new
+    live "/vats/:id/edit", TariffLive.Index, :edit
+
+    live "/vats/:id", TariffLive.Show, :show
+    live "/vats/:id/show/edit", TariffLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

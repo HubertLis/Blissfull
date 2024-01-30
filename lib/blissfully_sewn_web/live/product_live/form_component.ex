@@ -2,6 +2,7 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
   alias BlissfullySewn.Colors
   alias BlissfullySewn.Sizes
   alias BlissfullySewn.Categories
+  alias BlissfullySewn.Vat
   use BlissfullySewnWeb, :live_component
   alias BlissfullySewn.Products
 
@@ -14,11 +15,15 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
       Sizes.list_size()
       |> Enum.map( & {&1.name, &1.id})
     category_options =
-       Categories.list_categories()
-       |> Enum.map( & {&1.name, &1.id})
+      Categories.list_categories()
+      |> Enum.map( & {&1.name, &1.id})
+    vat_options =
+      Vat.list_vats()
+      |> Enum.map( & {&1.vat, &1.id})
     assigns = Map.put(assigns, :color_options, color_options)
     assigns = Map.put(assigns, :size_options, size_options)
     assigns = Map.put(assigns, :category_options, category_options)
+    assigns = Map.put(assigns, :vat_options, vat_options)
 
 
     ~H"""
@@ -35,12 +40,12 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:price]} type="number" label="Price" step="any" />
-        <.input field={@form[:vat]} type="number" label="Vat" />
+        <.input field={@form[:name]} type="text" label="Name *" />
+        <.input field={@form[:price]} type="number" label="Price *" step="any" />
+        <.input field={@form[:vat_id]} type="select" label="Vat *" options={@vat_options} prompt="Choose Vat tariff" />
         <.input field={@form[:color_id]} type="select" label="Color" options={@color_options} prompt="Choose the color" />
         <.input field={@form[:size_id]} type="select" label="Size" options={@size_options} prompt="Choose the size" />
-        <.input field={@form[:category_id]} type="select" label="Categories" options={@category_options} prompt="Choose the category" />
+        <.input field={@form[:category_id]} type="select" label="Categories *" options={@category_options} prompt="Choose the category" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Product</.button>
         </:actions>
