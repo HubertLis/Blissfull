@@ -9,7 +9,9 @@ defmodule BlissfullySewnWeb.ProductLive.Index do
     if connected?(socket) do
       Phoenix.PubSub.subscribe(BlissfullySewn.PubSub, "products")
     end
-
+    socket
+    |> assign(:uploaded_files, [])
+    |> allow_upload(:image, accept: ~w(.jpg .jpeg .png), max_entries: 10)
     {:ok, stream(socket, :products, Products.list_products())}
   end
 

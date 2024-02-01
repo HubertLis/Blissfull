@@ -23,6 +23,15 @@ defmodule BlissfullySewnWeb.Endpoint do
     gzip: false,
     only: BlissfullySewnWeb.static_paths()
 
+    plug Plug.Static,
+    at: "/media", from: :blissfully_sewn, gzip: false,
+    only: ~w(media)
+
+    plug Plug.Static,
+    at: "/photos",
+    from: {__MODULE__, :photos_path, []},
+    gzip: false
+
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do

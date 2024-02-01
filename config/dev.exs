@@ -56,7 +56,7 @@ config :blissfully_sewn, BlissfullySewnWeb.Endpoint,
 config :blissfully_sewn, BlissfullySewnWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/[^uploads].*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/blissfully_sewn_web/(controllers|live|components)/.*(ex|heex)$"
     ]

@@ -8,6 +8,7 @@ defmodule BlissfullySewnWeb.Router do
     plug :put_root_layout, html: {BlissfullySewnWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Plug.Static,at: "/uploads", from: {:my_app, "priv/static/uploads"}, gzip: false
   end
 
   pipeline :api do
@@ -49,13 +50,13 @@ defmodule BlissfullySewnWeb.Router do
 
     live "/vats/:id", TariffLive.Show, :show
     live "/vats/:id/show/edit", TariffLive.Show, :edit
-  end
+      end
 
   # Other scopes may use custom stacks.
   # scope "/api", BlissfullySewnWeb do
   #   pipe_through :api
   # end
-
+  # Serve files from the "priv/static/uploads" directory at the "/uploads" URL path
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:blissfully_sewn, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put
