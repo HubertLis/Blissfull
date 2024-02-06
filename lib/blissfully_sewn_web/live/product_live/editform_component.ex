@@ -1,17 +1,22 @@
-defmodule BlissfullySewnWeb.ProductLive.FormComponent do
-  alias BlissfullySewn.Categories
+defmodule BlissfullySewnWeb.ProductLive.Edit do
+  alias BlissfullySewn.Colors
+  alias BlissfullySewn.Sizes
   use BlissfullySewnWeb, :live_component
   alias BlissfullySewn.Products
 
 
   @impl true
   def render(assigns) do
-    category_options =
-      Categories.list_categories()
+    color_options =
+      Colors.list_colors()
       |> Enum.map(&{&1.name, &1.id})
-      vat_options = [21, 6, 0]
-    assigns = Map.put(assigns, :category_options, category_options)
-    assigns = Map.put(assigns, :vat_options, vat_options)
+
+    size_options =
+      Sizes.list_size()
+      |> Enum.map(&{&1.name, &1.id})
+
+    assigns = Map.put(assigns, :color_options, color_options)
+    assigns = Map.put(assigns, :size_options, size_options)
 
     ~H"""
     <div>
@@ -24,24 +29,23 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
         for={@form}
         id="product-form"
         phx-target={@myself}
-        phx-change="validate"
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name *" />
         <.input field={@form[:price]} type="number" label="Price *" step="any" />
         <.input
-          field={@form[:vat]}
-          type="select"
-          label="Vat *"
-          options={@vat_options}
-          default="21"
+        field={@form[:color_id]}
+        type="checkgroup"
+        label="Colors"
+        multiple={true}
+        options={@color_options}
         />
         <.input
-          field={@form[:category_id]}
-          type="select"
-          label="Categories *"
-          options={@category_options}
-          prompt="Choose the category"
+        field={@form[:size_id]}
+        type="checkgroup2"
+        label="Sizes"
+        multiple={true}
+        options={@size_options}
         />
         <div class="upload-title"><strong>Main Image (Front Page Image)</strong></div>
         <.live_file_input upload={@uploads.mainimage}/>
@@ -132,6 +136,7 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
       socket.assigns.product
       |> Products.change_product(product_params)
       |> Map.put(:action, :validate)
+
     {:noreply, assign_form(socket, changeset)}
   end
 
@@ -165,22 +170,6 @@ defmodule BlissfullySewnWeb.ProductLive.FormComponent do
          socket
          |> upload_files(product)
          |> put_flash(:info, "Product updated successfully")
-         |> push_patch(to: socket.assigns.patch)}
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign_form(socket, changeset)}
-    end
-  end
-
-  defp save_product(socket, :new, product_params) do
-    case Products.create_product(product_params) do
-      {:ok, product} ->
-        notify_parent({:saved, product})
-
-        {:noreply,
-         socket
-         |> upload_files(product)
-         |> put_flash(:info, "Product created successfully")
          |> push_patch(to: socket.assigns.patch)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

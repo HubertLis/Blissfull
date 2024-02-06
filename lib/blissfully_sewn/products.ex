@@ -19,7 +19,7 @@ defmodule BlissfullySewn.Products do
   """
   def list_products do
     Repo.all(Product)
-    |> Repo.preload([:color, :size,:category,:vat])
+    |> Repo.preload([:color, :size,:category])
   end
 
   @doc """
@@ -36,7 +36,10 @@ defmodule BlissfullySewn.Products do
       ** (Ecto.NoResultsError)
 
   """
-  def get_product!(id), do: Repo.get!(Product, id)
+  def get_product!(id) do
+    Repo.get!(Product, id)
+    |> Repo.preload([:color, :size,:category])
+  end
 
   @doc """
   Creates a product.
@@ -70,7 +73,7 @@ defmodule BlissfullySewn.Products do
   """
   def update_product(%Product{} = product, attrs) do
     product
-    |> Product.changeset(attrs)
+    |> Product.update_changeset(attrs)
     |> Repo.update()
   end
 

@@ -1,6 +1,6 @@
 // See the Tailwind configuration guide for advanced usage
 // https://tailwindcss.com/docs/configuration
-
+const colors = require("tailwindcss/colors")
 const plugin = require("tailwindcss/plugin")
 const fs = require("fs")
 const path = require("path")
@@ -9,7 +9,8 @@ module.exports = {
   content: [
     "./js/**/*.js",
     "../lib/blissfully_sewn_web.ex",
-    "../lib/blissfully_sewn_web/**/*.*ex"
+    "../lib/blissfully_sewn_web/**/*.*ex",
+    "../deps/petal_components/**/*.*ex"
   ],
   theme: {
     extend: {

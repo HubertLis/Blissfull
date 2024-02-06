@@ -4,7 +4,7 @@ defmodule BlissfullySewn.Colors.Color do
 
   schema "colors" do
     field :name, :string
-
+    many_to_many :products, BlissfullySewn.Products.Product, join_through: "products_colors"
     timestamps(type: :utc_datetime)
   end
 

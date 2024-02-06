@@ -2,6 +2,7 @@ defmodule BlissfullySewnWeb.ProductLive.Show do
   use BlissfullySewnWeb, :live_view
 
   alias BlissfullySewn.Products
+  alias BlissfullySewn.Products.Product
 
   @impl true
   def mount(_params, _session, socket) do

@@ -50,6 +50,8 @@ defmodule BlissfullySewnWeb.Router do
 
     live "/vats/:id", TariffLive.Show, :show
     live "/vats/:id/show/edit", TariffLive.Show, :edit
+
+    live "/home", HomeLive.Index, :index
       end
 
   # Other scopes may use custom stacks.

@@ -12,6 +12,7 @@ defmodule BlissfullySewnWeb.ProductLive.Index do
     socket
     |> assign(:uploaded_files, [])
     |> allow_upload(:image, accept: ~w(.jpg .jpeg .png), max_entries: 10)
+
     {:ok, stream(socket, :products, Products.list_products())}
   end
 
@@ -24,6 +25,7 @@ defmodule BlissfullySewnWeb.ProductLive.Index do
     socket
     |> assign(:page_title, "Edit Product")
     |> assign(:product, Products.get_product!(id))
+    |> assign(:component, BlissfullySewnWeb.ProductLive.Edit)
   end
 
   defp apply_action(socket, :new, _params) do
