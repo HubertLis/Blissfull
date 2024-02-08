@@ -11,47 +11,65 @@ defmodule BlissfullySewnWeb.Router do
     plug Plug.Static,at: "/uploads", from: {:my_app, "priv/static/uploads"}, gzip: false
   end
 
+  pipeline :front do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {BlissfullySewnWeb.Layouts, :homepage}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug Plug.Static,at: "/uploads", from: {:my_app, "priv/static/uploads"}, gzip: false
+  end
+  pipeline :admin do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {BlissfullySewnWeb.Layouts, :adminpage}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug Plug.Static,at: "/uploads", from: {:my_app, "priv/static/uploads"}, gzip: false
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   scope "/", BlissfullySewnWeb do
-    pipe_through :browser
-    live "/products", ProductLive.Index, :index
-    live "/products/new", ProductLive.Index, :new
-    live "/products/:id/edit", ProductLive.Index, :edit
+    pipe_through :front
+      live "/home", HomeLive.Index, :index
+      get "/product/show/:product_id", ProductController, :show
+    end
+    scope "/", BlissfullySewnWeb do
+      pipe_through [:browser, :admin]
+        live "/admin", AdminLive.Index, :index
+        live "/products", ProductLive.Index, :index
+        live "/products/new", ProductLive.Index, :new
+        live "/products/:id/edit", ProductLive.Index, :edit
 
-    live "/products/:id", ProductLive.Show, :show
-    live "/products/:id/show/edit", ProductLive.Show, :edit
-    live "/colors", ColorLive.Index, :index
-    live "/colors/new", ColorLive.Index, :new
-    live "/colors/:id/edit", ColorLive.Index, :edit
+        live "/products/:id", ProductLive.Show, :show
+        live "/products/:id/show/edit", ProductLive.Show, :edit
+        live "/colors", ColorLive.Index, :index
+        live "/colors/new", ColorLive.Index, :new
+        live "/colors/:id/edit", ColorLive.Index, :edit
 
-    live "/colors/:id", ColorLive.Show, :show
-    live "/colors/:id/show/edit", ColorLive.Show, :edit
+        live "/colors/:id", ColorLive.Show, :show
+        live "/colors/:id/show/edit", ColorLive.Show, :edit
 
-    live "/size", SizeLive.Index, :index
-    live "/size/new", SizeLive.Index, :new
-    live "/size/:id/edit", SizeLive.Index, :edit
+        live "/size", SizeLive.Index, :index
+        live "/size/new", SizeLive.Index, :new
+        live "/size/:id/edit", SizeLive.Index, :edit
 
-    live "/size/:id", SizeLive.Show, :show
-    live "/size/:id/show/edit", SizeLive.Show, :edit
-    get "/", PageController, :home
+        live "/size/:id", SizeLive.Show, :show
+        live "/size/:id/show/edit", SizeLive.Show, :edit
+        get "/", PageController, :home
 
-    live "/categories", CategoryLive.Index, :index
-    live "/categories/new", CategoryLive.Index, :new
-    live "/categories/:id/edit", CategoryLive.Index, :edit
+        live "/categories", CategoryLive.Index, :index
+        live "/categories/new", CategoryLive.Index, :new
+        live "/categories/:id/edit", CategoryLive.Index, :edit
 
-    live "/categories/:id", CategoryLive.Show, :show
-    live "/categories/:id/show/edit", CategoryLive.Show, :edit
-    live "/vats", TariffLive.Index, :index
-    live "/vats/new", TariffLive.Index, :new
-    live "/vats/:id/edit", TariffLive.Index, :edit
-
-    live "/vats/:id", TariffLive.Show, :show
-    live "/vats/:id/show/edit", TariffLive.Show, :edit
-
-    live "/home", HomeLive.Index, :index
+        live "/categories/:id", CategoryLive.Show, :show
+        live "/categories/:id/show/edit", CategoryLive.Show, :edit
+        get "/product/search", SearchController, :index
       end
 
   # Other scopes may use custom stacks.

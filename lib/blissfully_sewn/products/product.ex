@@ -7,6 +7,7 @@ defmodule BlissfullySewn.Products.Product do
     belongs_to :size, BlissfullySewn.Sizes.Size
     many_to_many :color, BlissfullySewn.Colors.Color, join_through: "products_colors"
     belongs_to :category, BlissfullySewn.Categories.Category
+    field :description, :string
     field :vat, :decimal
     field :price, :decimal
 
@@ -16,12 +17,12 @@ defmodule BlissfullySewn.Products.Product do
   @doc false
   def changeset(product, attrs) do
     product
-    |> cast(attrs, [:name, :price, :vat, :category_id])
+    |> cast(attrs, [:name, :price, :vat, :category_id, :description])
     |> validate_required([:name, :price, :vat, :category_id])
   end
   def update_changeset(product, attrs) do
     product
-    |> cast(attrs, [:name, :price, :vat, :category_id])
+    |> cast(attrs, [:name, :price, :vat, :category_id, :description])
     |> cast_assoc(:color, with: &color_changeset/2)
     |> cast_assoc(:size, with: &size_changeset/2)
   end

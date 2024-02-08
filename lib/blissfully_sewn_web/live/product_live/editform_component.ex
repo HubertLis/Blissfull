@@ -20,6 +20,11 @@ defmodule BlissfullySewnWeb.ProductLive.Edit do
 
     ~H"""
     <div>
+    <head>
+    <!-- Add these lines in your layout head tag -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.js"></script>
+    </head>
       <.header>
         <%= @title %>
         <:subtitle>Use this form to manage product records in your database.</:subtitle>
@@ -47,6 +52,10 @@ defmodule BlissfullySewnWeb.ProductLive.Edit do
         multiple={true}
         options={@size_options}
         />
+        <div>
+        <label>Description</label>
+        <input id="product_description" name="product[description]" type="hidden" value={@form.data.description} />
+        </div>
         <div class="upload-title"><strong>Main Image (Front Page Image)</strong></div>
         <.live_file_input upload={@uploads.mainimage}/>
         <%= for entry <- @uploads.mainimage.entries do %>

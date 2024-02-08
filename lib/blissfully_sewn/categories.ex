@@ -21,6 +21,24 @@ defmodule BlissfullySewn.Categories do
     Repo.all(Category)
   end
 
+  def list_categories_with_products do
+    category_ids_with_products = Repo.all(
+      from p in BlissfullySewn.Products.Product,
+      group_by: p.category_id,
+      select: p.category_id
+    )
+
+    categories_with_products = Repo.all(
+      from c in Category,
+      where: c.id in ^category_ids_with_products,
+      preload: [:products]
+    )
+
+    categories_with_products
+  end
+
+
+
   @doc """
   Gets a single category.
 

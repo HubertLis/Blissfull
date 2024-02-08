@@ -1,4 +1,37 @@
-<.header>
-    Hello
-</.header>
+<%= for category <- @categories_with_products do %>
+  <div class="mt-8">
+    <!-- Red bar for the category -->
+    <div class="bg-red-500 h-2 mb-4"></div>
+    <h2 class="text-xl font-bold mb-4"><%= category.name %></h2>
 
+    <!-- Grid for products in the category -->
+    <div class="grid grid-cols-3 gap-5">
+      <%= for product <- category.products do %>
+        <div class="product-card bg-white shadow-md rounded overflow-hidden">
+          <%= if File.exists?(Path.join([Application.app_dir(:blissfully_sewn), "priv", "static", "uploads", to_string(product.id), "main.png"])) do %>
+            <img src={"/uploads/#{product.id}/main.png"} alt="Product Image" class="object-cover w-full max-w-[300px] max-h-[300px] h-auto"/>
+          <% else %>
+            <div class="flex items-center justify-center max-w-[300px] max-h-[300px] bg-gray-200 text-sm">
+              <span>No Image Available</span>
+            </div>
+          <% end %>
+          <div class="p-4">
+            <h3 class="text-lg font-semibold truncate"><%= product.name %></h3>
+            <p class="text-gray-600">Price: € <%= Decimal.to_string(Decimal.mult(product.price, Decimal.add(1, Decimal.div(product.vat, 100)))) %></p>
+            <!-- Add more product details here -->
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html>

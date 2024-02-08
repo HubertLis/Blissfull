@@ -4,6 +4,7 @@ defmodule BlissfullySewn.Categories.Category do
 
   schema "categories" do
     field :name, :string
+    has_many :products, BlissfullySewn.Products.Product
 
     timestamps(type: :utc_datetime)
   end
