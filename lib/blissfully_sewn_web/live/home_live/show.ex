@@ -1,7 +1,7 @@
-defmodule BlissfullySewnWeb.TariffLive.Show do
+defmodule BlissfullySewnWeb.HomeLive.Show do
   use BlissfullySewnWeb, :live_view
 
-  alias BlissfullySewn.Vat
+  alias BlissfullySewn.Products
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,9 +13,9 @@ defmodule BlissfullySewnWeb.TariffLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:tariff, Vat.get_tariff!(id))}
+     |> assign(:product, Products.get_product!(id))}
   end
 
-  defp page_title(:show), do: "Show Tariff"
-  defp page_title(:edit), do: "Edit Tariff"
+  defp page_title(:show), do: "Show Product"
+  defp page_title(:edit), do: "Edit Product"
 end

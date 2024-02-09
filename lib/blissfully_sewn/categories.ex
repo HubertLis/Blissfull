@@ -37,6 +37,12 @@ defmodule BlissfullySewn.Categories do
     categories_with_products
   end
 
+  def get_category_by_name!(name) do
+    Repo.get_by!(Category, name: name) |> Repo.preload(:products)
+  end
+
+
+
 
 
   @doc """

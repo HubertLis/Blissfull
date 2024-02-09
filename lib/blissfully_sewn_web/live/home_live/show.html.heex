@@ -1,0 +1,36 @@
+<div class="flex">
+  <div class="flex-none w-[300px] h-auto">
+    <!-- Display main image -->
+    <%= if File.exists?(Path.join([Application.app_dir(:blissfully_sewn), "priv", "static", "uploads", to_string(@product.id), "main.png"])) do %>
+      <img src={"/uploads/#{@product.id}/main.png"} alt="Product Image" class="object-cover w-full h-auto"/>
+    <% else %>
+      <div class="flex items-center justify-center w-full h-[300px] bg-gray-200 text-sm">
+        <span>No Image Available</span>
+      </div>
+    <% end %>
+
+    <!-- Display other images in a grid -->
+    <div class="grid grid-cols-3 gap-4 mt-4">
+      <% images_path = Path.join([Application.app_dir(:blissfully_sewn), "priv", "static", "uploads", to_string(@product.id)]) %>
+      <% images = File.ls!(images_path) |> Enum.reject(&(&1 == "main.png")) %>
+      <%= for image <- images do %>
+        <img src={"/uploads/#{@product.id}/#{image}"} alt="Product Image" class="w-full h-auto max-w-[100px] max-h-[100px] object-cover"/>
+      <% end %>
+    </div>
+  </div>
+</div>
+  <div class="flex-grow">
+    <.header>
+      <%= @product.name %>
+    </.header>
+
+    <.list>
+      <:item title="Name"><%= @product.name %></:item>
+      <:item title="Price"><%= @product.price %></:item>
+      <:item title="Description"><%= @product.description %></:item>
+      <:item title="Color"><%= @product.color %></:item>
+      <:item title="Size"><%= @product.size %></:item>
+    </.list>
+
+    <.back navigate={~p"/home"}>Back to homepage</.back>
+  </div>

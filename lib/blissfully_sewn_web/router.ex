@@ -37,7 +37,8 @@ defmodule BlissfullySewnWeb.Router do
   scope "/", BlissfullySewnWeb do
     pipe_through :front
       live "/home", HomeLive.Index, :index
-      get "/product/show/:product_id", ProductController, :show
+      live "/home/product/:id", HomeLive.Show, :show
+      live "/home/category/:category_name", HomeLive.Categories, :category
     end
     scope "/", BlissfullySewnWeb do
       pipe_through [:browser, :admin]

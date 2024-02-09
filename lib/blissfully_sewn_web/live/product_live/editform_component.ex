@@ -52,10 +52,8 @@ defmodule BlissfullySewnWeb.ProductLive.Edit do
         multiple={true}
         options={@size_options}
         />
-        <div>
         <label>Description</label>
-        <input id="product_description" name="product[description]" type="hidden" value={@form.data.description} />
-        </div>
+        <.input field={@form[:description]} type="text" label="Description" />
         <div class="upload-title"><strong>Main Image (Front Page Image)</strong></div>
         <.live_file_input upload={@uploads.mainimage}/>
         <%= for entry <- @uploads.mainimage.entries do %>

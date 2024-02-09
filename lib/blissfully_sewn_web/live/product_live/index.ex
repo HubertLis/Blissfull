@@ -41,9 +41,8 @@ defmodule BlissfullySewnWeb.ProductLive.Index do
   end
 
   @impl true
-  def handle_info({BlissfullySewnWeb.ProductLive.FormComponent, {:saved, product}}, socket) do
+  def handle_info({BlissfullySewnWeb.ProductLive.Edit, {:saved, product}}, socket) do
     {:noreply, stream_insert(socket, :products, product)}
-#    {:noreply, socket}
   end
 
   def handle_info(:refresh, socket) do

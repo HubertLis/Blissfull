@@ -1,3 +1,12 @@
+<div class="bg-gray-100 p-4">
+  <div class="max-w-7xl mx-auto flex flex-wrap gap-2">
+    <%= for category <- @categories_with_products do %>
+      <a href={"/home/category/#{category.name}"} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <%= category.name %>
+      </a>
+    <% end %>
+  </div>
+</div>
 <%= for category <- @categories_with_products do %>
   <div class="mt-8">
     <!-- Red bar for the category -->
@@ -7,23 +16,25 @@
     <!-- Grid for products in the category -->
     <div class="grid grid-cols-3 gap-5">
       <%= for product <- category.products do %>
-        <div class="product-card bg-white shadow-md rounded overflow-hidden">
-          <%= if File.exists?(Path.join([Application.app_dir(:blissfully_sewn), "priv", "static", "uploads", to_string(product.id), "main.png"])) do %>
-            <img src={"/uploads/#{product.id}/main.png"} alt="Product Image" class="object-cover w-full max-w-[300px] max-h-[300px] h-auto"/>
-          <% else %>
-            <div class="flex items-center justify-center max-w-[300px] max-h-[300px] bg-gray-200 text-sm">
-              <span>No Image Available</span>
+        <a href={"/home/product/#{product.id}"} class="product-card-link"> <!-- Dynamically set the link -->
+          <div class="product-card bg-white shadow-md rounded overflow-hidden cursor-pointer">
+            <%= if File.exists?(Path.join([Application.app_dir(:blissfully_sewn), "priv", "static", "uploads", to_string(product.id), "main.png"])) do %>
+              <img src={"/uploads/#{product.id}/main.png"} alt="Product Image" class="object-cover w-full max-w-[300px] max-h-[300px] h-auto"/>
+            <% else %>
+              <div class="flex items-center justify-center max-w-[300px] max-h-[300px] bg-gray-200 text-sm">
+                <span>No Image Available</span>
+              </div>
+            <% end %>
+            <div class="p-4">
+              <h3 class="text-lg font-semibold truncate"><%= product.name %></h3>
+              <p class="text-gray-600">Price: € <%= Decimal.to_string(Decimal.mult(product.price, Decimal.add(1, Decimal.div(product.vat, 100)))) %></p>
+              <!-- Add more product details here -->
             </div>
-          <% end %>
-          <div class="p-4">
-            <h3 class="text-lg font-semibold truncate"><%= product.name %></h3>
-            <p class="text-gray-600">Price: € <%= Decimal.to_string(Decimal.mult(product.price, Decimal.add(1, Decimal.div(product.vat, 100)))) %></p>
-            <!-- Add more product details here -->
           </div>
-        </div>
+        </a>
       <% end %>
     </div>
-  </div>
+  </div>  
 <% end %>
 <html lang="en">
 <head>
