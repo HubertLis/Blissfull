@@ -21,9 +21,6 @@ defmodule BlissfullySewnWeb.ProductLive.Edit do
     ~H"""
     <div>
     <head>
-    <!-- Add these lines in your layout head tag -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.js"></script>
     </head>
       <.header>
         <%= @title %>

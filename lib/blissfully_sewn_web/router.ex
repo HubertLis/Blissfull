@@ -40,9 +40,9 @@ defmodule BlissfullySewnWeb.Router do
       live "/home/product/:id", HomeLive.Show, :show
       live "/home/category/:category_name", HomeLive.Categories, :category
     end
-    scope "/", BlissfullySewnWeb do
+    scope "/admin", BlissfullySewnWeb do
       pipe_through [:browser, :admin]
-        live "/admin", AdminLive.Index, :index
+        live "/", AdminLive.Index, :index
         live "/products", ProductLive.Index, :index
         live "/products/new", ProductLive.Index, :new
         live "/products/:id/edit", ProductLive.Index, :edit
@@ -62,7 +62,6 @@ defmodule BlissfullySewnWeb.Router do
 
         live "/size/:id", SizeLive.Show, :show
         live "/size/:id/show/edit", SizeLive.Show, :edit
-        get "/", PageController, :home
 
         live "/categories", CategoryLive.Index, :index
         live "/categories/new", CategoryLive.Index, :new
@@ -70,7 +69,6 @@ defmodule BlissfullySewnWeb.Router do
 
         live "/categories/:id", CategoryLive.Show, :show
         live "/categories/:id/show/edit", CategoryLive.Show, :edit
-        get "/product/search", SearchController, :index
       end
 
   # Other scopes may use custom stacks.

@@ -1,7 +1,7 @@
 <.header>
   Listing Size
   <:actions>
-    <.link patch={~p"/size/new"}>
+    <.link patch={~p"/admin/size/new"}>
       <.button>New Size</.button>
     </.link>
   </:actions>
@@ -10,14 +10,14 @@
 <.table
   id="size"
   rows={@streams.size_collection}
-  row_click={fn {_id, size} -> JS.navigate(~p"/size/#{size}") end}
+  row_click={fn {_id, size} -> JS.navigate(~p"/admin/size/#{size}") end}
 >
   <:col :let={{_id, size}} label="Name"><%= size.name %></:col>
   <:action :let={{_id, size}}>
     <div class="sr-only">
-      <.link navigate={~p"/size/#{size}"}>Show</.link>
+      <.link navigate={~p"/admin/size/#{size}"}>Show</.link>
     </div>
-    <.link patch={~p"/size/#{size}/edit"}>Edit</.link>
+    <.link patch={~p"/admin/size/#{size}/edit"}>Edit</.link>
   </:action>
   <:action :let={{id, size}}>
     <.link
@@ -29,13 +29,13 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="size-modal" show on_cancel={JS.patch(~p"/size")}>
+<.modal :if={@live_action in [:new, :edit]} id="size-modal" show on_cancel={JS.patch(~p"/admin/size")}>
   <.live_component
     module={BlissfullySewnWeb.SizeLive.FormComponent}
     id={@size.id || :new}
     title={@page_title}
     action={@live_action}
     size={@size}
-    patch={~p"/size"}
+    patch={~p"/admin/size"}
   />
 </.modal>
