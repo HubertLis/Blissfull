@@ -22,23 +22,6 @@ defmodule BlissfullySewn.Products do
     |> Repo.preload([:color, :size,:category])
   end
 
-  def search(search_query) do
-    search_query = "%#{search_query}%"
-
-    Place
-    |> order_by(asc: :name)
-    |> where([p], ilike(p.name, ^search_query))
-    |> limit(5)
-    |> Repo.all()
-  end
-
-  def search_products(query) do
-    from(p in Product,
-      where: ilike(p.name, ^"%#{query}%"),
-      preload: [:size, :color, :category]
-    )
-    |> Repo.all()
-  end
 
   @doc """
   Gets a single product.
